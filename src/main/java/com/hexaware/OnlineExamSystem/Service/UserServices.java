@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import com.hexaware.OnlineExamSystem.Dao.IUserService;
 import com.hexaware.OnlineExamSystem.Model.User;
-import com.hexaware.OnlineExamSystem.com.hexaware.OnlineExamSystemHibernate.App;
 
 
 public class UserServices {
@@ -79,11 +78,20 @@ public class UserServices {
 	}
 	
 	
+	// take exam
+	public void takeExam(User user) {
+		IUserService ius = new IUserService();
+		ius.userTakeExam(user);
+	}
+	
+	
 	//user logout
 	public void logOut(User user) {
 		IUserService ius = new IUserService();
 		
 		ius.logout(user);
 	}
+	
+	
 	
 }

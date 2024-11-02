@@ -53,7 +53,6 @@ public class App {
 				}
 				break;
 			case 3:
-				System.out.println("back to Choose role page");
 				return;
 			}
 		}
@@ -68,7 +67,7 @@ public class App {
 
 		while (true) {
 			System.out.println("******** USER MENU ********");
-			System.out.println("Enter your choice\n1. Modify Email\n2. Modify Password\n3. Log Out");
+			System.out.println("Enter your choice\n1. Modify Email\n2. Modify Password\n3. Take Exam\n4. Log Out");
 			int choice = sc.nextInt();
 			sc.nextLine();
 
@@ -78,10 +77,14 @@ public class App {
 				userv.modifyEmail(user);
 				break;
 			case 2:
-				System.out.println("Modify password");
+				System.out.println("Modify Password");
 				userv.modifyPassword(user);
 				break;
 			case 3:
+				System.out.println("Take Exam");
+				userv.takeExam(user);
+				break;
+			case 4:
 				System.out.println("Log Out");
 				userv.logOut(user);
 				return;

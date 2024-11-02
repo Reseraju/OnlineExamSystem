@@ -3,9 +3,15 @@ package com.hexaware.OnlineExamSystem.Dao;
 
 
 import org.hibernate.query.Query;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.hexaware.OnlineExamSystem.Model.Question;
 import com.hexaware.OnlineExamSystem.Model.User;
 import com.hexaware.OnlineExamSystem.Util.ConnectionUtil;
 
@@ -106,6 +112,39 @@ public class IUserService {
 		}
 		ses.close();
 		
+	}
+	
+	public void userTakeExam(User user) {
+		ses = util.getSessionFactory().openSession();
+		Transaction tax = ses.beginTransaction();
+		
+		List<String> correctAnswers = new ArrayList<>();
+		List<String> userAnswers = new ArrayList<>();
+		
+		Scanner sc = new Scanner(System.in);
+		
+		Query<Question> query = ses.createQuery("from Question", Question.class);
+		List<Question> qlist = query.getResultList();
+		
+		for(Question  q : qlist) {
+			System.out.println("Question: " + q.getqText());
+			System.out.println("Option A: " + q.getOptionA());
+			System.out.println("Option B: " + q.getOptionB());
+			System.out.println("Option C: " + q.getOptionC());
+			System.out.println("Option D: " + q.getOptionD());
+			correctAnswers.add(q.getCorrectAnswer());
+			
+			System.out.print("Enter your answer (A, B, C, or D): ");
+	        String userAnswer = sc.nextLine().toUpperCase();
+	        userAnswers.add(userAnswer);
+	        
+	        System.out.println();
+		}
+		
+		System.out.println("Correct Answers:");
+	    for (int i = 0; i < qlist.size(); i++) {
+	        System.out.println("Question " + (i + 1) + ": Correct Answer = " + correctAnswers.get(i) + ", Your Answer = " + userAnswers.get(i));
+	    }
 	}
 	
 	public void logout(User user) {
