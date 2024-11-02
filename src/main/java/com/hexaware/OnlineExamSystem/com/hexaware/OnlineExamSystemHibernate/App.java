@@ -1,0 +1,153 @@
+package com.hexaware.OnlineExamSystem.com.hexaware.OnlineExamSystemHibernate;
+
+import java.util.Scanner;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+import com.hexaware.OnlineExamSystem.Model.User;
+import com.hexaware.OnlineExamSystem.Service.AdminServices;
+import com.hexaware.OnlineExamSystem.Service.UserServices;
+
+/**
+ * Hello world!
+ *
+ */
+public class App 
+{
+	SessionFactory fac;
+	Session ses;
+
+	App() {
+
+		fac = new Configuration().configure("hiber.config.xml").addAnnotatedClass(User.class).buildSessionFactory();
+
+	}
+	
+
+	
+	public void registerUser(String role) {
+		UserServices userv = new UserServices();
+		Scanner sc = new Scanner(System.in);
+		
+		ses = fac.openSession();
+		Transaction tax = ses.beginTransaction();
+		
+		while(true) {
+			System.out.println("******** USER MENU ********");
+			System.out.println("Enter your choice\n1. Sign Up\n2. Login\n3. Back");
+			int choice = sc.nextInt();
+			
+			switch(choice) {
+			case 1:
+				System.out.println("Sign Up ");
+				userv.signUp(role);
+				break;
+			case 2:
+				System.out.println("Login");
+				User usr = userv.signIn();
+				if(role == "User") {
+					userServices(usr);
+				}
+				else if(role == "Admin"){
+					
+				}
+				break;
+			case 3:
+				System.out.println("back to Choose role page");
+				return;
+			}
+		}
+	}
+	
+	public void userServices(User user) {
+		UserServices userv = new UserServices();
+		Scanner sc = new Scanner(System.in);
+		
+		ses = fac.openSession();
+		Transaction tax = ses.beginTransaction();
+		
+		while(true) {
+			System.out.println("******** USER MENU ********");
+			System.out.println("Enter your choice\n1. Modify Email\n2. Modify Password\n3. Log Out");
+			int choice = sc.nextInt();
+			
+			switch(choice) {
+			case 1:
+				System.out.println("Modify Email");
+				userv.modifyEmail(user);
+				break;
+			case 2:
+				System.out.println("Modify password");
+				userv.modifyPassword(user);
+				break;
+			case 3:
+				System.out.println("Log Out");
+				userv.logOut(user);
+				return;
+			}
+		}
+	}
+	
+	public void adminServices() {
+		Scanner sc = new Scanner(System.in);
+		AdminServices aserv = new AdminServices();
+		ses = fac.openSession();
+		Transaction tax = ses.beginTransaction();
+		
+		while(true) {
+			System.out.println("******** USER MENU ********");
+			System.out.println("Enter your choice\n1. Add User\n2. Remove User\n3. Modify User");
+			int choice = sc.nextInt();
+			
+			switch(choice) {
+			case 1:
+				System.out.println("View all users");
+				aserv.viewAllUsers();
+			case 2:
+				System.out.println("Modify Email");
+				aserv.addUser();
+				break;
+			case 3:
+				System.out.println("Modify password");
+				aserv.removeUser();
+				break;
+			case 4:
+				System.out.println("Log Out");
+				aserv.modifyUser();
+				return;
+			}
+		}
+	}
+	
+    public static void main( String[] args )
+    {
+    	App app = new App();
+    	Scanner sc = new Scanner(System.in);
+    	
+    	while(true) {
+    		System.out.println("******* ONLINE EXAM SYSTEM *******");
+            System.out.println( "Enter your Role \n1. Admin \n2. User\n3. Exit" );
+            int role = sc.nextInt();
+            
+            switch(role) {
+            case 1:{
+            	app.registerUser("Admin");
+            	break;
+            }
+            case 2:{
+            	app.registerUser("User");
+            	break;
+            }
+            case 3:{
+            	System.out.println("Exiting......");
+            	return;
+            }
+            }
+    	}
+    	
+        
+    }
+}
