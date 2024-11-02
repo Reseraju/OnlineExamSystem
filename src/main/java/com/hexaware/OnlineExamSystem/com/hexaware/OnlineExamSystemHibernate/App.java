@@ -15,8 +15,7 @@ import com.hexaware.OnlineExamSystem.Service.UserServices;
  * Hello world!
  *
  */
-public class App 
-{
+public class App {
 	SessionFactory fac;
 	Session ses;
 
@@ -25,22 +24,21 @@ public class App
 		fac = new Configuration().configure("hiber.config.xml").addAnnotatedClass(User.class).buildSessionFactory();
 
 	}
-	
 
-	
 	public void registerUser(String role) {
 		UserServices userv = new UserServices();
 		Scanner sc = new Scanner(System.in);
-		
+
 		ses = fac.openSession();
 		Transaction tax = ses.beginTransaction();
-		
-		while(true) {
+
+		while (true) {
 			System.out.println("******** MAIN MENU ********");
 			System.out.println("Enter your choice\n1. Sign Up\n2. Login\n3. Back");
 			int choice = sc.nextInt();
-			
-			switch(choice) {
+			sc.nextLine();
+
+			switch (choice) {
 			case 1:
 				System.out.println("Sign Up ");
 				userv.signUp(role);
@@ -48,10 +46,9 @@ public class App
 			case 2:
 				System.out.println("Login");
 				User usr = userv.signIn();
-				if(role == "User") {
+				if (role.equals("User")) {
 					userServices(usr);
-				}
-				else if(role == "Admin"){
+				} else if (role.equals("Admin")) {
 					adminServices(usr);
 				}
 				break;
@@ -61,20 +58,21 @@ public class App
 			}
 		}
 	}
-	
+
 	public void userServices(User user) {
 		UserServices userv = new UserServices();
 		Scanner sc = new Scanner(System.in);
-		
+
 		ses = fac.openSession();
 		Transaction tax = ses.beginTransaction();
-		
-		while(true) {
+
+		while (true) {
 			System.out.println("******** USER MENU ********");
 			System.out.println("Enter your choice\n1. Modify Email\n2. Modify Password\n3. Log Out");
 			int choice = sc.nextInt();
-			
-			switch(choice) {
+			sc.nextLine();
+
+			switch (choice) {
 			case 1:
 				System.out.println("Modify Email");
 				userv.modifyEmail(user);
@@ -90,19 +88,21 @@ public class App
 			}
 		}
 	}
-	
+
 	public void adminServices(User user) {
 		Scanner sc = new Scanner(System.in);
 		AdminServices aserv = new AdminServices();
 		ses = fac.openSession();
 		Transaction tax = ses.beginTransaction();
-		
-		while(true) {
+
+		while (true) {
 			System.out.println("******** ADMIN MENU ********");
-			System.out.println("Enter your choice\n1. View All users\n2. Add User\n3. Remove User\n4. Modify User\n5. Log Out");
+			System.out.println(
+					"Enter your choice\n1. View All users\n2. Add User\n3. Remove User\n4. Modify User\n5. View All Questions\n6. Add Questions \n7. Modify Questions \n8. Remove Questions \n9. Log Out");
 			int choice = sc.nextInt();
-			
-			switch(choice) {
+			sc.nextLine();
+
+			switch (choice) {
 			case 1:
 				System.out.println("View all users");
 				aserv.viewAllUsers();
@@ -120,39 +120,54 @@ public class App
 				aserv.modifyUser();
 				break;
 			case 5:
+				System.out.println("View All Questions");
+				aserv.viewAllQuestions();
+				break;
+			case 6:
+				System.out.println("Add Questions");
+				aserv.addQuestion();
+				break;
+			case 7:
+				System.out.println("Modify Questions");
+				aserv.modifyQuestion();
+				break;
+			case 8:
+				System.out.println("Remove questions");
+				aserv.removeQuestion();
+				break;
+			case 9:
 				System.out.println("Log Out");
 				aserv.logoutAdmin(user);
 				return;
 			}
 		}
 	}
-	
-    public static void main( String[] args )
-    {
-    	App app = new App();
-    	Scanner sc = new Scanner(System.in);
-    	
-    	while(true) {
-    		System.out.println("******* ONLINE EXAM SYSTEM *******");
-            System.out.println( "Enter your Role \n1. Admin \n2. User\n3. Exit" );
-            int role = sc.nextInt();
-            
-            switch(role) {
-            case 1:{
-            	app.registerUser("Admin");
-            	break;
-            }
-            case 2:{
-            	app.registerUser("User");
-            	break;
-            }
-            case 3:{
-            	System.out.println("Exiting......");
-            	return;
-            }
-            }
-    	}
-    	
-        
-    }
+
+	public static void main(String[] args) {
+		App app = new App();
+		Scanner sc = new Scanner(System.in);
+
+		while (true) {
+			System.out.println("******* ONLINE EXAM SYSTEM *******");
+			System.out.println("Enter your Role \n1. Admin \n2. User\n3. Exit");
+			int role = sc.nextInt();
+			sc.nextLine();
+
+			switch (role) {
+			case 1: {
+				app.registerUser("Admin");
+				break;
+			}
+			case 2: {
+				app.registerUser("User");
+				break;
+			}
+			case 3: {
+				System.out.println("Exiting......");
+				return;
+			}
+			}
+		}
+
+	}
 }

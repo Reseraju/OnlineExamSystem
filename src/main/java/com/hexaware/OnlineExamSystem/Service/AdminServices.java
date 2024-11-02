@@ -3,6 +3,7 @@ package com.hexaware.OnlineExamSystem.Service;
 import java.util.Scanner;
 
 import com.hexaware.OnlineExamSystem.Dao.IAdminService;
+import com.hexaware.OnlineExamSystem.Model.Question;
 import com.hexaware.OnlineExamSystem.Model.User;
 
 
@@ -64,7 +65,7 @@ public class AdminServices {
 		System.out.println("Enter the user id of the user to modify details: ");
 		int userId = sc.nextInt();
 		System.out.println("Enter new name: ");
-		String name = sc.next();
+		String name = sc.nextLine();
 		System.out.println("Enter new email: ");
 		String email = sc.next();
 		System.out.println("Enter new password: ");
@@ -83,5 +84,81 @@ public class AdminServices {
 		ias.logout(user);
 	}
 
+	// addQuestion
+	public void addQuestion() {
+		Question ques =new Question();
+		IAdminService ias = new IAdminService();
+		
+		System.out.println("Enter the Question(Text) : ");
+		String qText =sc.nextLine();
+		System.out.println("Option A: ");
+		String optionA = sc.nextLine();
+		System.out.println("Option B: ");
+		String optionB = sc.nextLine();
+		System.out.println("Option C: ");
+		String optionC = sc.nextLine();
+		System.out.println("Option D: ");
+		String optionD = sc.nextLine();
+		System.out.println("Enter correct answer: ");
+		String correctAnwer = sc.nextLine();
+		
+		ques.setqText(qText);
+		ques.setOptionA(optionA);
+		ques.setOptionB(optionB);
+		ques.setOptionC(optionC);
+		ques.setOptionD(optionD);
+		ques.setCorrectAnswer(correctAnwer);
+		ias.adminAddQuestion(ques);
+		
+	}
 	
+	//view all questions
+	public void viewAllQuestions() {
+		IAdminService ias = new IAdminService();
+		
+		System.out.println("All questions...");
+		ias.adminViewQuestions();
+	}
+	
+	//modify question
+	public void modifyQuestion() {
+		Question ques = new Question();
+		IAdminService ias = new IAdminService();
+		
+		ias.adminViewQuestions();
+		System.out.println("Enter the question id of the question to be modified: ");
+		int qId = sc.nextInt();
+		sc.nextLine();
+		System.out.println("Enter Question: ");
+		String qText = sc.nextLine();
+		System.out.println("Option A: ");
+		String optionA = sc.next();
+		System.out.println("Option B: ");
+		String optionB = sc.next();
+		System.out.println("Option c: ");
+		String optionC = sc.next();
+		System.out.println("Option D: ");
+		String optionD = sc.next();
+		System.out.println("Correct answer: ");
+		String correctAnswer = sc.next();
+		
+		ques.setqText(qText);
+		ques.setOptionA(optionA);
+		ques.setOptionB(optionB);
+		ques.setOptionC(optionC);
+		ques.setOptionD(optionD);
+		ques.setCorrectAnswer(correctAnswer);
+		ias.adminModifyQuestion(ques, qId);
+	}
+	
+	//remove question
+	public void removeQuestion() {
+		Question ques = new Question();
+		IAdminService ias = new IAdminService();
+		
+		ias.adminViewQuestions();
+		System.out.println("Enter the question Id to remove");
+		int qId = sc.nextInt();
+		ias.adminRemoveQuestion(qId);
+	}
 }

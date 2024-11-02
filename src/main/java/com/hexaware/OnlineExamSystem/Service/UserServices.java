@@ -18,7 +18,7 @@ public class UserServices {
 		
 		System.out.println("Enter username: ");
 		String username = sc.next();
-		sc.nextLine();
+		//sc.nextLine();
 		System.out.println("Enter email: ");
 		String email = sc.next();
 		System.out.println("Enter Password: ");
@@ -37,9 +37,8 @@ public class UserServices {
 		User user = new User();
 		IUserService ius = new IUserService();
 		
-		sc.nextLine();
 		System.out.println("Enter username: ");
-		String username = sc.nextLine();
+		String username = sc.next();
 		System.out.println("Enter email: ");
 		String email = sc.next();
 		System.out.println("Enter Password: ");

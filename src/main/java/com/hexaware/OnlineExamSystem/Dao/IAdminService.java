@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import com.hexaware.OnlineExamSystem.Model.Question;
 import com.hexaware.OnlineExamSystem.Model.User;
 import com.hexaware.OnlineExamSystem.Util.ConnectionUtil;
 
@@ -17,11 +18,9 @@ public class IAdminService {
 	// view all users
 	public void viewUsers() {
 		ses = util.getSessionFactory().openSession();
-
 		Transaction tax = ses.beginTransaction();
-
+		
 		Query<User> query = ses.createQuery("from User");
-
 		List<User> ulist = query.list();
 		
 		for(User u : ulist) {
@@ -73,7 +72,10 @@ public class IAdminService {
 		User u = ses.find(User.class, userId);
 		
 		if(u!=null) {
-			ses.saveOrUpdate(user);
+			u.setName(user.getName());
+	        u.setEmail(user.getEmail());
+	        u.setPassword(user.getPassword());
+			ses.saveOrUpdate(u);
 			tax.commit();
 			System.out.println("modified user details of " + user.getName());
 		}
@@ -107,6 +109,71 @@ public class IAdminService {
 		}
 		else {
 			System.out.println("User Does not exists");
+		}
+		ses.close();
+	}
+	
+	// add question
+	public void adminAddQuestion(Question ques) {
+		ses = util.getSessionFactory().openSession();
+		Transaction tax = ses.beginTransaction();
+		
+		ses.save(ques);
+		tax.commit();
+		System.out.println("Question Added!");
+		ses.close();
+	}
+	
+	// view all questions
+	public void adminViewQuestions() {
+		ses = util.getSessionFactory().openSession();
+		Transaction tax = ses.beginTransaction();
+		
+		Query<Question> query = ses.createQuery("from Question");
+		List<Question> qlist = query.list();
+		
+		for(Question q : qlist) {
+			System.out.println(q.toString());
+		}
+		ses.close();
+	}
+	
+	// remove question
+	public void adminRemoveQuestion(int qId) {
+		ses = util.getSessionFactory().openSession();
+		Transaction tax = ses.beginTransaction();
+		
+		Query<Question> query = ses.createQuery("from Question where qId=:qId");
+		query.setParameter("qId", qId);
+		
+		Question q = query.uniqueResult();
+		
+		ses.delete(q);
+		tax.commit();
+		System.out.println("Question has been removed!");
+		ses.close();
+	}
+	
+	//modify question
+	public void adminModifyQuestion(Question ques, int qId) {
+		ses = util.getSessionFactory().openSession();
+		Transaction tax = ses.beginTransaction();
+
+		Question q = ses.find(Question.class, qId);
+		
+		if(q!=null) {
+			q.setqText(ques.getqText());
+			q.setOptionA(ques.getOptionA());
+			q.setOptionB(ques.getOptionB());
+			q.setOptionC(ques.getOptionC());
+			q.setOptionD(ques.getOptionD());
+			q.setCorrectAnswer(ques.getCorrectAnswer());
+			ses.saveOrUpdate(q);
+			tax.commit();
+			System.out.println("modified question!");
+		}
+		else {
+			System.out.println("Question does not exists!");
 		}
 		ses.close();
 	}

@@ -17,8 +17,8 @@
 			Apple@99l3123
 		</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
-		<property name="show.sql">true</property>
+		<property name="show.sql">false</property>
 		<!-- List of XML mapping files -->
-		
+		<mapping class="com.hexaware.OnlineExamSystem.Model.Question"/>
 	</session-factory>
 </hibernate-configuration>
