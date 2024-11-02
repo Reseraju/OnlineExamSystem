@@ -55,6 +55,11 @@ public class User {
 	public void setActive(boolean active) {
 		this.Active = active;
 	}
+	@Override
+	public String toString() {
+		return "User [UserId=" + UserId + ", name=" + name + ", email=" + email + ", password=" + password + ", role="
+				+ role + ", Active=" + Active + "]";
+	}
 	
 	
 }

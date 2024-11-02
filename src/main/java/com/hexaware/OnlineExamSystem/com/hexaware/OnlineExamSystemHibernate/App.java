@@ -36,7 +36,7 @@ public class App
 		Transaction tax = ses.beginTransaction();
 		
 		while(true) {
-			System.out.println("******** USER MENU ********");
+			System.out.println("******** MAIN MENU ********");
 			System.out.println("Enter your choice\n1. Sign Up\n2. Login\n3. Back");
 			int choice = sc.nextInt();
 			
@@ -52,7 +52,7 @@ public class App
 					userServices(usr);
 				}
 				else if(role == "Admin"){
-					
+					adminServices(usr);
 				}
 				break;
 			case 3:
@@ -91,32 +91,37 @@ public class App
 		}
 	}
 	
-	public void adminServices() {
+	public void adminServices(User user) {
 		Scanner sc = new Scanner(System.in);
 		AdminServices aserv = new AdminServices();
 		ses = fac.openSession();
 		Transaction tax = ses.beginTransaction();
 		
 		while(true) {
-			System.out.println("******** USER MENU ********");
-			System.out.println("Enter your choice\n1. Add User\n2. Remove User\n3. Modify User");
+			System.out.println("******** ADMIN MENU ********");
+			System.out.println("Enter your choice\n1. View All users\n2. Add User\n3. Remove User\n4. Modify User\n5. Log Out");
 			int choice = sc.nextInt();
 			
 			switch(choice) {
 			case 1:
 				System.out.println("View all users");
 				aserv.viewAllUsers();
+				break;
 			case 2:
-				System.out.println("Modify Email");
+				System.out.println("Add Users");
 				aserv.addUser();
 				break;
 			case 3:
-				System.out.println("Modify password");
+				System.out.println("Remove Users");
 				aserv.removeUser();
 				break;
 			case 4:
-				System.out.println("Log Out");
+				System.out.println("Modify User");
 				aserv.modifyUser();
+				break;
+			case 5:
+				System.out.println("Log Out");
+				aserv.logoutAdmin(user);
 				return;
 			}
 		}
